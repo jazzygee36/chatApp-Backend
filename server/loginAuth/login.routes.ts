@@ -7,6 +7,7 @@ import {
   updateUserbyId,
   userLogin,
   verifyToken,
+  sendResetPassword,
 } from "./login.controller";
 const route = express.Router();
 
@@ -17,5 +18,6 @@ route.get("/user/:id", getUsersById);
 route.delete("/user/:id", deleteUserbyId);
 route.patch("/user/:id", updateUserbyId);
 route.post("/user/login", userLogin);
+route.post("/reset/password", sendResetPassword);
 
 export default route;

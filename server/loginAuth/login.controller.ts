@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import UserSchema from "./login.schema";
 import bcrypt from "bcrypt";
 import jwt, { Secret, JwtPayload } from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
 const TOKEN_KEY: string | any = process.env.TOKEN_KEY;
 
@@ -107,5 +110,37 @@ export const verifyToken = (req: Request, res: Response) => {
     }
   } catch (err) {
     return res.status(401).send("Invalid Token");
+  }
+};
+
+export const sendResetPassword = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.SMTP_MAIL, // generated ethereal user
+        pass: process.env.SMTP_PASSWORD, // generated ethereal password
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.SMTP_MAIL, // sender address
+      to: email, // list of receivers
+      subject: "Resetting your ChatApp password ", // Subject line
+      text: "Please, confirm that you are the one requesting to change your password",
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.status(401).json({ message: "Error" });
+      } else {
+        return res
+          .status(201)
+          .json({ message: "email successfully sent" + info.response });
+      }
+    });
+  } catch (err) {
+    return res.status(500);
   }
 };
