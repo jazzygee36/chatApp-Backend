@@ -8,6 +8,8 @@ import {
   userLogin,
   verifyToken,
   sendResetPassword,
+  // videoRoom,
+  // chatRoom,
 } from "./login.controller";
 const route = express.Router();
 
@@ -19,5 +21,6 @@ route.delete("/user/:id", deleteUserbyId);
 route.patch("/user/:id", updateUserbyId);
 route.post("/user/login", userLogin);
 route.post("/reset/password", sendResetPassword);
+// route.get("/user/chatroom", chatRoom);
 
 export default route;
