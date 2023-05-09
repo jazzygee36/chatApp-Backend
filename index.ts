@@ -3,7 +3,7 @@ const app = express();
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
-const Port = process.env.PORT;
+const Port = process.env.PORT || 5000;
 import mongoose from "mongoose";
 import indexRouter from "./server/loginAuth/login.routes";
 import { config } from "./server/config/config";
